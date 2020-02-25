@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Earthquake Explorer</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css?family=Quicksand&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans+Narrow&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Karla&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Muli&display=swap" rel="stylesheet">
+
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+
+
+
+    <script src="earthquake.js"></script>
+    <script src='data/countries.geo.json' type="text/javascript"></script>
+    <!-- https://github.com/cossatot/gem-global-active-faults/blob/master/geojson/gem_active_faults_harmonized.geojson -->
+    <script src='data/gem_active_faults_harmonized.geo.json' type="text/javascript"></script>
+
+</head>
+
+<!-- The fixed info on top -->
+<header>
+    <div class="banner">
+        <h1>Earthquakes in the past 7 days</h1>
+        <p>This map shows USGS recent earthquakes magnitude 2.5+ and global fault features. Explore the map, click on features to learn more.</p>
+        <a href="https://earthquake.usgs.gov/" target="blank">USGS Earthquake Hazards</a>
+        <a href="https://github.com/cossatot/gem-global-active-faults/" target="blank">GEM Global active faults</a>
+    </div>
+</header>
+
+<body>
+    <!-- The Map -->
+    <div id="mapid"></div>
+        
+</body>
+</html>

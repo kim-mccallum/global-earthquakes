@@ -1,0 +1,66 @@
+/* MOBILE FIRST STYLES */
+body {
+    margin:0;
+    padding: 0;
+    color: #1c1a17;
+    font-family: 'Quicksand', sans-serif;
+}
+
+h1, p, a {
+    margin: 0;
+    padding: 0;
+    padding-bottom: 3px;
+    text-align: center;
+}
+a{
+    display: block;
+    text-align: center;
+}
+
+.banner {
+    background-color: #08121e;
+    color: white;
+    height: 26vh;
+}
+
+p, .button{
+    font-family: 'Muli', sans-serif;
+}
+
+#mapid {
+    height: 74vh;
+    background-color: #08121e;
+    z-index: 800;
+}
+
+/* Change some styles for larger screens */
+@media screen and (min-width: 400px) {
+    .banner {
+        height: 20vh;
+    }
+    #mapid {
+        height: 80vh;
+    }  
+    #slide-in {
+        padding:12px;
+    }
+    fieldset{
+        font-size: 16px;
+    }
+}
+@media screen and (min-width: 700px) {
+    .banner {
+        height: 18vh;
+    }
+    #mapid {
+        height: 78vh;
+    }  
+}
+@media screen and (min-width: 1000px) {
+    .banner {
+        height: 20vh;
+    }
+    #mapid {
+        height: 80vh;
+    }  
+}
