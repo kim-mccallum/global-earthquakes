@@ -13,9 +13,9 @@ let filteredFeatures = [];
 function initializeMap() {
     map = L.map('mapid')
     //Add satellite mosaic basemap
-    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Physical_Map/MapServer/tile/{z}/{y}/{x}', {
-        attribution: 'Tiles &copy; Esri &mdash; Source: US National Park Service',
-        maxZoom: 8
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles &copy; Esri &mdash; National Geographic, Esri, DeLorme, NAVTEQ, UNEP-WCMC, USGS, NASA, ESA, METI, NRCAN, GEBCO, NOAA, iPC',
+        maxZoom: 16
     }).addTo(map);
     //Fit the map to the world
     map.fitWorld( { animate: false } );

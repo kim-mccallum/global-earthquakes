@@ -13,6 +13,10 @@ h1, p, a {
     text-align: center;
 }
 
+a{
+    color:#9480ad;
+}
+
 .sources{
     text-align: center;
     color:green;
@@ -47,24 +51,18 @@ p {
 /* Change some styles for larger screens */
 @media screen and (min-width: 400px) {
     .banner {
-        height: 20vh;
+        height: 24vh;
     }
     #mapid {
-        height: 80vh;
+        height: 76vh;
     }  
-    #slide-in {
-        padding:12px;
-    }
-    fieldset{
-        font-size: 16px;
-    }
 }
 @media screen and (min-width: 700px) {
     .banner {
-        height: 18vh;
+        height: 23vh;
     }
     #mapid {
-        height: 78vh;
+        height: 77vh;
     }  
 }
 @media screen and (min-width: 1000px) {
