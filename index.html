@@ -17,11 +17,13 @@
     
     <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
-
+    <!-- Load Esri Leaflet from CDN -->
+    <script src="https://unpkg.com/esri-leaflet@2.3.3/dist/esri-leaflet.js"
+    integrity="sha512-cMQ5e58BDuu1pr9BQ/eGRn6HaR6Olh0ofcHFWe5XesdCITVuSBiBZZbhCijBe5ya238f/zMMRYIMIIg1jxv4sQ=="
+    crossorigin=""></script>
 
 
     <script src="earthquake.js"></script>
-    <script src='data/countries.geo.json' type="text/javascript"></script>
     <!-- https://github.com/cossatot/gem-global-active-faults/blob/master/geojson/gem_active_faults_harmonized.geojson -->
     <script src='data/gem_active_faults_harmonized.geo.json' type="text/javascript"></script>
 
@@ -32,8 +34,10 @@
     <div class="banner">
         <h1>Earthquakes in the past 7 days</h1>
         <p>This map shows USGS recent earthquakes magnitude 2.5+ and global fault features. Explore the map, click on features to learn more.</p>
-        <a href="https://earthquake.usgs.gov/" target="blank">USGS Earthquake Hazards</a>
-        <a href="https://github.com/cossatot/gem-global-active-faults/" target="blank">GEM Global active faults</a>
+        <div class="sources">
+            <a href="https://earthquake.usgs.gov/" target="blank">USGS Earthquake Hazards</a>
+            <a href="https://github.com/cossatot/gem-global-active-faults/" target="blank">GEM Global active faults</a>
+        </div>
     </div>
 </header>
 
@@ -41,5 +45,18 @@
     <!-- The Map -->
     <div id="mapid"></div>
         
+    <div id="query" class="leaflet-bar">
+        <label>
+        MAGNITUDE
+            <select id="magnitude">
+            <option value="mag_all">All Earthquakes 2.5+</option>
+            <option value="mag_lt_3.6">2.5 to 3.5</option>
+            <option value="mag_btwn_3.6_4.5">3.6 to 4.5</option>
+            <option value="mag_btwn_4.6_5.5">4.6 to 5.5</option>
+            <option value="mag_btwn_5.6_6.5">5.6 to 6.5</option>
+            <option value="mag_gt_6.6">5.6 to 6.5</option>
+            </select>
+        </label>
+    </div>
 </body>
 </html>

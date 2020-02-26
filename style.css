@@ -12,9 +12,10 @@ h1, p, a {
     padding-bottom: 3px;
     text-align: center;
 }
-a{
-    display: block;
+
+.sources{
     text-align: center;
+    color:green;
 }
 
 .banner {
@@ -23,7 +24,7 @@ a{
     height: 26vh;
 }
 
-p, .button{
+p {
     font-family: 'Muli', sans-serif;
 }
 
@@ -32,6 +33,16 @@ p, .button{
     background-color: #08121e;
     z-index: 800;
 }
+
+#query {
+    position: absolute;
+    top: 90px;
+    right: 10px;
+    z-index: 1000;
+    background: white;
+    padding: 1em;
+    font-size: 16px;
+  }
 
 /* Change some styles for larger screens */
 @media screen and (min-width: 400px) {

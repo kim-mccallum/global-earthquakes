@@ -1,7 +1,8 @@
 // Global variables for map features
 let data = [];
 let map = [];
-let earthquakesGeoJSON = [];
+let allEarthquakeFeatures = [];
+let filteredFeatures = [];
 
 // https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php
 // API - Maybe I should allow users to select API request parameters and make the API call a global that gets formatted by a function
@@ -40,68 +41,39 @@ function getEarthquakeData() {
     fetch(eventRequest,{
       method:'GET'
     })
-      .then(response => response.json())
-      .then(json => {
-        //assign the response to the global data object to allow easy manipulation by other functions
-        data = json
-        // console.log(json);
-        // call render function that houses the below
-        earthquakesGeoJSON = L.geoJSON(json, {
-            style: function(feature) {
-                return {
-                    fillOpacity:0.1,
-                    fillColor: '#f56511',
-                    color: '#fa2605',
-                    opacity: 0.4
-                };
-            },
-            // Style - circle size proportion to magnitude arbitrary number but maybe something better? 
-            pointToLayer: function(geoJsonPoint,latlng){
-                return L.circle(latlng, 50000*(geoJsonPoint.properties.mag));
-            },
-            onEachFeature: function(feature,layer){
-                layer.on('mouseover',function(e) {
-                    e.target.setStyle({fillOpacity:0.9})
-                })
-                layer.on('mouseout',function(e) {
-                    e.target.setStyle({fillOpacity:0.4})
-                })  
-            }
-        }).bindPopup(function(layer){
-            return `<strong>Earthquake location</strong>:  ${layer.feature.properties.place}<br><strong>Time:</strong>  ${new Date(layer.feature.properties.time)}<br><strong>Magnitude:</strong>  ${layer.feature.properties.mag}`
-          })
-        .addTo(map);
-      })
-      .catch(error => console.log(error.message));
-  }
-
-// Add countries and some interactivity - Maybe remove later and use a basemap with labels?
-function setCountryFeatures() {
-    const countryFeatures = L.geoJSON(COUNTRIES, {
-      style:function(feature){
-          return {
-              color: '#1e0f24',
-              fillOpacity:0, 
-              opacity: 0.8,
-              weight: 0.5
-          }
+    .then(response => response.json())
+    .then(json => {
+    //assign the response to the global data object to allow easy manipulation by other functions
+    data = json
+    // console.log(json);
+    // call render function that houses the below
+    allEarthquakeFeatures = L.geoJSON(json, {
+        style: function(feature) {
+            return {
+                fillOpacity:0.1,
+                fillColor: '#f56511',
+                color: '#fa2605',
+                opacity: 0.4
+            };
+        },
+        // Style - circle size proportion to magnitude arbitrary number but maybe something better? 
+        pointToLayer: function(geoJsonPoint,latlng){
+            return L.circle(latlng, 50000*(geoJsonPoint.properties.mag));
         },
         onEachFeature: function(feature,layer){
-          layer.on('mouseover',function(e) {
-              e.target.setStyle({color: '#cc00cc', weight: 1})
-          })
-          layer.on('mouseout',function(e) {
-              e.target.setStyle({color: '#1e0f24', weight: 0.5})
-          })  
-      }
-      })
-      .bindPopup(function(layer){
-          return `<strong>${layer.feature.properties.name}</strong>`
-      }).addTo(map);
-  
-    map.fitBounds(countryFeatures.getBounds(), {
-      padding: [-40,-250]
-    });
+            layer.on('mouseover',function(e) {
+                e.target.setStyle({fillOpacity:0.9})
+            })
+            layer.on('mouseout',function(e) {
+                e.target.setStyle({fillOpacity:0.4})
+            })  
+        }
+    }).bindPopup(function(layer){
+        return `<strong>Earthquake location</strong>:  ${layer.feature.properties.place}<br><strong>Time:</strong>  ${new Date(layer.feature.properties.time)}<br><strong>Magnitude:</strong>  ${layer.feature.properties.mag}`
+        })
+    .addTo(map);
+    })
+    .catch(error => console.log(error.message));
   }
 
 function setFaultFeatures(){
@@ -126,13 +98,83 @@ function setFaultFeatures(){
     }).addTo(map);
 }
 
+function clearMapEvents() {
+    map.removeLayer(allEarthquakeFeatures);
+    map.removeLayer(filteredFeatures);
+  }
+
+function handleEarthquakeFilter(){
+    $('#query').on('change', function(e){
+        e.preventDefault();
+        // clear the earthquakes
+        clearMapEvents()
+
+        // Get the magnitude value from the 'change' event
+        let magnitude = $('#magnitude').val();
+
+        console.log(magnitude.split("_"));
+        let searchCriteria = magnitude.split("_");
+        let bottomRange = 0;
+        let topRange = 10;
+        let op = searchCriteria[1];
+
+        if (op === 'lt'){
+            topRange = searchCriteria[2];
+        }
+        else if (op === 'gt'){
+            bottomRange = searchCriteria[2];
+        }
+        else if (op === 'btwn'){
+            bottomRange = searchCriteria[2];
+            topRange = searchCriteria[3];
+        }
+
+        console.log(`here are the ranges: ${bottomRange} and ${topRange}`)
+        // re-render the earthquake data with the filter applied
+        filteredFeatures = L.geoJSON(data, {
+            filter: function(feature, layer) {
+                // check to see if the feature has a magnitude in range - if true, the feature will render to the map
+                // console.log(feature.properties.mag)
+                if(feature.properties.mag>=5){
+                    console.log(feature.properties.mag)
+                    console.log(Number(feature.properties.mag) > Number(bottomRange) && Number(feature.properties.mag) <= Number(topRange) )
+                }
+                
+                return (feature.properties.mag > Number(bottomRange) && feature.properties.mag <= Number(topRange) );          
+            },
+            style: function(feature) {
+                return {
+                    fillOpacity:0.1,
+                    fillColor: '#f56511',
+                    color: '#fa2605',
+                    opacity: 0.4
+                };
+            },
+            // Style - circle size proportion to magnitude arbitrary number but maybe something better? 
+            pointToLayer: function(geoJsonPoint,latlng){
+                return L.circle(latlng, 50000*(geoJsonPoint.properties.mag));
+            },
+            onEachFeature: function(feature,layer){
+                layer.on('mouseover',function(e) {
+                    e.target.setStyle({fillOpacity:0.9})
+                })
+                layer.on('mouseout',function(e) {
+                    e.target.setStyle({fillOpacity:0.4})
+                })  
+            }
+        }).bindPopup(function(layer){
+            return `<strong>Earthquake location</strong>:  ${layer.feature.properties.place}<br><strong>Time:</strong>  ${new Date(layer.feature.properties.time)}<br><strong>Magnitude:</strong>  ${layer.feature.properties.mag}`
+            }).addTo(map);
+    })
+}
+
 ////////////////////////////////////// Call all the functions to 'run' the map //////////////////////////////////////////////
 
 function start() {
     initializeMap()
-    // setCountryFeatures()
-    getEarthquakeData()
     setFaultFeatures()
+    getEarthquakeData()    
+    handleEarthquakeFilter()
   }
   
   $(start);
