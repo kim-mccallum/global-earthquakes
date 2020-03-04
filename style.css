@@ -13,13 +13,12 @@ h1, p, a {
     text-align: center;
 }
 
-a{
+a {
     color:#9480ad;
 }
 
 .sources{
     text-align: center;
-    color:green;
 }
 
 .banner {
@@ -41,7 +40,7 @@ p {
 #query {
     position: absolute;
     top: 90px;
-    right: 10px;
+    left: 10px;
     z-index: 1000;
     background: white;
     padding: 1em;

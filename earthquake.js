@@ -11,12 +11,36 @@ let filteredFeatures = [];
 
 // Create the Leaflet map
 function initializeMap() {
-    map = L.map('mapid')
-    //Add satellite mosaic basemap
-    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}', {
+    map = L.map('mapid', {zoomControl:false})
+    //Add default basemap
+    var natGeo = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}', {
         attribution: 'Tiles &copy; Esri &mdash; National Geographic, Esri, DeLorme, NAVTEQ, UNEP-WCMC, USGS, NASA, ESA, METI, NRCAN, GEBCO, NOAA, iPC',
         maxZoom: 16
     }).addTo(map);
+
+    // Add alternative night basemap
+    var nasaNight = L.tileLayer('https://map1.vis.earthdata.nasa.gov/wmts-webmerc/VIIRS_CityLights_2012/default/{time}/{tilematrixset}{maxZoom}/{z}/{y}/{x}.{format}', {
+        attribution: 'Imagery provided by services from the Global Imagery Browse Services (GIBS), operated by the NASA/GSFC/Earth Science Data and Information System (<a href="https://earthdata.nasa.gov">ESDIS</a>) with funding provided by NASA/HQ.',
+        bounds: [[-85.0511287776, -179.999999975], [85.0511287776, 179.999999975]],
+        minZoom: 1,
+        maxZoom: 8,
+        format: 'jpg',
+        time: '',
+        tilematrixset: 'GoogleMapsCompatible_Level'
+    });
+
+    createLayerSwitcher();
+
+    // function to create a layer switcher control
+    function createLayerSwitcher() {
+    // define basemap and add layer switcher control
+        var basemaps = {
+            "National Geographic": natGeo,
+            "NASA GIBS 2012 night": nasaNight
+        };
+    L.control.layers(basemaps).addTo(map);
+    }
+
     //Fit the map to the world
     map.fitWorld( { animate: false } );
   
