@@ -69,7 +69,6 @@ function getEarthquakeData() {
     .then(json => {
     //assign the response to the global data object to allow easy manipulation by other functions
     data = json
-    // console.log(json);
     // call render function that houses the below
     allEarthquakeFeatures = L.geoJSON(json, {
         style: function(feature) {
@@ -176,6 +175,8 @@ function handleEarthquakeFilter(){
             },
             // Style - circle size proportion to magnitude arbitrary number but maybe something better? 
             pointToLayer: function(geoJsonPoint,latlng){
+                // ADD LOGIC FOR ZOOM SCALE VIEWING HERE? ASK PANOS!!!
+                // SIMPLE CONDITIONAL BEFORE RETURN
                 return L.circle(latlng, 50000*(geoJsonPoint.properties.mag));
             },
             onEachFeature: function(feature,layer){
@@ -191,6 +192,11 @@ function handleEarthquakeFilter(){
             }).addTo(map);
     })
 }
+
+// ADD FUNCTION TO SELECT NEAREST EARTHQUAKES TO FAULT CLICKED ON GIVENT RADIUS
+// click on a fault, calc a buffer of dist=x
+// select eqs that intersect that buffer of that fault
+// click off and it clears the selection
 
 ////////////////////////////////////// Call all the functions to 'run' the map //////////////////////////////////////////////
 
