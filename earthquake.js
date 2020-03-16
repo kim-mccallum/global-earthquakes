@@ -174,11 +174,12 @@ function handleEarthquakeFilter(){
                 };
             },
             // Style - circle size proportion to magnitude arbitrary number but maybe something better? 
-            pointToLayer: function(geoJsonPoint,latlng){
-                // ADD LOGIC FOR ZOOM SCALE VIEWING HERE? ASK PANOS!!!
-                // SIMPLE CONDITIONAL BEFORE RETURN
-                return L.circle(latlng, 50000*(geoJsonPoint.properties.mag));
-            },
+            pointToLayer: symbolizeEarthquakes(geoJsonPoint,latlng),
+            // // THE FUNCTION WORKS WHEN CALLED LIKE THIS: 
+            // pointToLayer: function(geoJsonPoint,latlng){
+            //     // ADD LOGIC FOR ZOOM SCALE VIEWING HERE BUT FIRST TAKE THIS OUT OF THIS BIG MESSY FUNCTION AND CREATE A HELPER symbolizeEarthquakes function
+            //     return L.circle(latlng, 50000*(geoJsonPoint.properties.mag));
+            // },
             onEachFeature: function(feature,layer){
                 layer.on('mouseover',function(e) {
                     e.target.setStyle({fillOpacity:0.9})
@@ -193,6 +194,9 @@ function handleEarthquakeFilter(){
     })
 }
 
+function symbolizeEarthquakes(geoJsonPoint,latlng){
+    return L.circle(latlng, 50000*(geoJsonPoint.properties.mag));
+}
 // ADD FUNCTION TO SELECT NEAREST EARTHQUAKES TO FAULT CLICKED ON GIVENT RADIUS
 // click on a fault, calc a buffer of dist=x
 // select eqs that intersect that buffer of that fault
