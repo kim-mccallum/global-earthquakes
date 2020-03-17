@@ -2,7 +2,6 @@
 let data = [];
 let map = [];
 let allEarthquakeFeatures = [];
-let filteredFeatures = [];
 let bottomRange = 0;
 let topRange = 15;
 let symbolScaler = {
@@ -59,7 +58,7 @@ function initializeMap() {
     map.setMinZoom(map.getBoundsZoom(map.options.maxBounds));
   }
 
-//   Call the USGS API to get earthquake data
+//   Call the USGS API to GET earthquake data
 function getEarthquakeData() {
     const eventRequest = `https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojson`
     // Fetch the data
@@ -128,6 +127,10 @@ function handleEarthquakeFilter(){
             topRange = searchCriteria[3];
         }
         renderEqFeatures();
+
+        if(allEarthquakeFeatures.getLayers().length === 0){
+            alert(`No recent earthquakes found in selected magnitude range. \nTry another category.`)
+        }
         })
 }
 
