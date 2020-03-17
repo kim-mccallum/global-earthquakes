@@ -84,6 +84,8 @@ function setFaultFeatures(){
             }
         },
         onEachFeature: function(feature,layer){
+        //   INSTEAD OF CHANGING STYLE, MAKE THIS EVENT LISTENER USE TURF TO BUFFER THE FEATURE AND SELECT THE EARTHQUAKE FEATURES?
+        // IF SO, HOW DO I SELECT THE EARTHQUAKE FEATURES?
           layer.on('mouseover',function(e) {
               e.target.setStyle({color: '#10b53c'})
           })
@@ -98,7 +100,6 @@ function setFaultFeatures(){
 
 function resetEqData() {
     map.removeLayer(allEarthquakeFeatures);
-    // map.removeLayer(filteredFeatures);
     bottomRange = 0;
     topRange = 15;
   }
@@ -177,14 +178,22 @@ function zoomHandler(){
             symbolScaler.scaler -= 10000;
             symbolScaler.prevZoom = currentZoom;            
         }
+        if(currentZoom === 6){
+            symbolScaler.scaler = 8000;
+        }
+        if(currentZoom >= 7){
+            symbolScaler.scaler = 5000;
+        }
         map.removeLayer(allEarthquakeFeatures)
         renderEqFeatures();
     });
 }
-// ADD FUNCTION TO SELECT NEAREST EARTHQUAKES TO FAULT CLICKED ON GIVENT RADIUS
-// click on a fault, calc a buffer of dist=x
-// select eqs that intersect that buffer of that fault
-// click off and it clears the selection
+// ADD FUNCTION TO SELECT NEAREST EARTHQUAKES TO FAULT CLICKED ON USING A HARDCODED RADIUS? SHOULD THIS BE HERE OR IN THE FAULT FUNCTION EVENT LISTENER? 
+function faultEqSelector(){
+    // click on a fault, calc a buffer of dist=x
+    // select eqs that intersect that buffer of that fault
+    // click off and it clears the selection
+}
 
 ////////////////////////////////////// Call all the functions to 'run' the map //////////////////////////////////////////////
 

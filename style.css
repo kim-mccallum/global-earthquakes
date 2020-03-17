@@ -13,8 +13,17 @@ h1, p, a {
     text-align: center;
 }
 
+h1{
+    font-size: 20px;
+}
+
+p{
+    font-size: 14px;
+}
+
 a {
     color:#9480ad;
+    font-size: 14px;
 }
 
 .sources{
@@ -24,51 +33,77 @@ a {
 .banner {
     background-color: #08121e;
     color: white;
-    height: 26vh;
+    height: 23vh;
+}
+
+#mapid {
+    height: 77vh;
+    background-color: #08121e;
+    z-index: 800;
 }
 
 p {
     font-family: 'Muli', sans-serif;
 }
 
-#mapid {
-    height: 74vh;
-    background-color: #08121e;
-    z-index: 800;
+.leaflet-popup-content{
+    font-family: 'Quicksand', sans-serif;
+    font-size: 12px;
+    margin:2px;
+}
+
+#magnitude{
+    font-family: 'Quicksand', sans-serif;
 }
 
 #query {
     position: absolute;
-    top: 90px;
-    left: 10px;
+    top: 160px;
+    left: 5px;
     z-index: 1000;
     background: white;
-    padding: 1em;
-    font-size: 16px;
+    /* padding:1px; */
+    margin-right: 0;
+    font-size: 12px;
   }
 
 /* Change some styles for larger screens */
-@media screen and (min-width: 400px) {
+@media screen and (min-width: 760px) {
     .banner {
-        height: 24vh;
+        height: 18vh;
     }
     #mapid {
-        height: 76vh;
-    }  
-}
-@media screen and (min-width: 700px) {
-    .banner {
-        height: 23vh;
+        height: 82vh;
     }
-    #mapid {
-        height: 77vh;
+    h1{
+        font-size: 24px;
+    } 
+    p{
+        font-size: 16px;
+    }
+    a {
+        color:#9480ad;
+        font-size: 16px;
+    }
+    #query {
+        top: 130px;
+        padding:5px;
+        font-size: 16px;
+    }
+    .leaflet-popup-content{
+        font-family: 'Quicksand', sans-serif;
+        font-size: 16px;
+        margin:4px;
     }  
 }
 @media screen and (min-width: 1000px) {
     .banner {
-        height: 20vh;
+        height: 15vh;
     }
     #mapid {
-        height: 80vh;
+        height: 85vh;
+    }
+    #query {
+        top: 105px;
     }  
 }

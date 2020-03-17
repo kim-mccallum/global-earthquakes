@@ -21,10 +21,11 @@
     <script src="https://unpkg.com/esri-leaflet@2.3.3/dist/esri-leaflet.js"
     integrity="sha512-cMQ5e58BDuu1pr9BQ/eGRn6HaR6Olh0ofcHFWe5XesdCITVuSBiBZZbhCijBe5ya238f/zMMRYIMIIg1jxv4sQ=="
     crossorigin=""></script>
+    <!-- Load TurfJS -->
+    <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
 
 
     <script src="earthquake.js"></script>
-    <!-- https://github.com/cossatot/gem-global-active-faults/blob/master/geojson/gem_active_faults_harmonized.geojson -->
     <script src='data/gem_active_faults_harmonized.geo.json' type="text/javascript"></script>
 
 </head>
@@ -48,6 +49,7 @@
     <div id="query" class="leaflet-bar">
         <label>
         MAGNITUDE
+        <br>
             <select id="magnitude">
             <option value="mag_all">All Earthquakes 2.5+</option>
             <option value="mag_lt_3.6">2.5 to 3.5</option>
