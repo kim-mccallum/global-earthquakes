@@ -1,4 +1,4 @@
-// Global variables for map features
+// Global variables for map features - put these into a single global object later
 let data = [];
 let map = [];
 let allEarthquakeFeatures = [];
@@ -6,12 +6,9 @@ let filteredFeatures = [];
 let bottomRange = 0;
 let topRange = 15;
 let symbolScaler = {
-    scaler: 50000,
+    scaler: 60000,
     prevZoom: 0,
 };
-
-// https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php
-// API - Maybe I should allow users to select API request parameters and make the API call a global that gets formatted by a function
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -36,7 +33,6 @@ function initializeMap() {
     });
 
     createLayerSwitcher();
-
     // function to create a layer switcher control
     function createLayerSwitcher() {
     // define basemap and add layer switcher control
@@ -46,7 +42,6 @@ function initializeMap() {
         };
     L.control.layers(basemaps).addTo(map);
     }
-
     //Fit the map to the world
     map.fitWorld( { animate: false } );
   
@@ -97,21 +92,22 @@ function setFaultFeatures(){
           })  
       }
     }).bindPopup(function(layer){
-        // console.log(layer.feature.properties)
         return `<strong>Fault name</strong>:  ${layer.feature.properties.catalog_name}<br><strong>Slip type</strong>:  ${layer.feature.properties.slip_type}`;
     }).addTo(map);
 }
 
-function clearMapEvents() {
+function resetEqData() {
     map.removeLayer(allEarthquakeFeatures);
-    map.removeLayer(filteredFeatures);
+    // map.removeLayer(filteredFeatures);
+    bottomRange = 0;
+    topRange = 15;
   }
 
 function handleEarthquakeFilter(){
     $('#query').on('change', function(e){
         e.preventDefault();
         // clear the earthquakes
-        clearMapEvents()
+        resetEqData()
 
         // Get the magnitude value from the 'change' event
         let magnitude = $('#magnitude').val();
@@ -130,55 +126,8 @@ function handleEarthquakeFilter(){
             bottomRange = searchCriteria[2];
             topRange = searchCriteria[3];
         }
-
         renderEqFeatures();
-
-
-        // L.geoJSON(data, {filter: filterMap}).addTo(map);
-
-        // function filterMap(feature){
-        //     return (feature.properties.mag > Number(bottomRange) && feature.properties.mag <= Number(topRange) );  
-        // }
-        
-        // console.log(`here are the ranges: ${bottomRange} and ${topRange}`)
-        // re-render the earthquake data with the filter applied
-        // filteredFeatures = L.geoJSON(data, {
-        //     filter: function(feature, layer) {
-        //         // check to see if the feature has a magnitude in range - if true, the feature will render to the map
-        //         // console.log(`data here: ${data}`)
-        //         if(feature.properties.mag>=5){
-        //             // console.log(feature.properties.mag)
-        //         }
-        //         // return feature.properties.mag > Number(bottomRange) && feature.properties.mag <= Number(topRange)
-        //         return (feature.properties.mag > Number(bottomRange) && feature.properties.mag <= Number(topRange) );          
-        //     },
-            // style: function(feature) {
-            //     return {
-            //         fillOpacity:0.1,
-            //         fillColor: '#f56511',
-            //         color: '#fa2605',
-            //         opacity: 0.4
-            //     };
-            // },
-            // pointToLayer: function(geoJsonPoint,latlng){
-            //     console.log(map.getZoom())
-            //     // ADD LOGIC FOR ZOOM SCALE VIEWING HERE BUT FIRST TAKE THIS OUT OF THIS BIG MESSY FUNCTION AND CREATE A HELPER symbolizeEarthquakes function
-            //     return L.circle(latlng, symbolScaler.scaler*(geoJsonPoint.properties.mag));
-            // },
-            // onEachFeature: function(feature,layer){
-            //     layer.on('mouseover',function(e) {
-            //         e.target.setStyle({fillOpacity:0.9})
-            //     })
-            //     layer.on('mouseout',function(e) {
-            //         e.target.setStyle({fillOpacity:0.4})
-            //     })  
-            // }
         })
-        // .bindPopup(function(layer){
-        //     return `<strong>Earthquake location</strong>:  ${layer.feature.properties.place}<br><strong>Time:</strong>  ${new Date(layer.feature.properties.time)}<br><strong>Magnitude:</strong>  ${layer.feature.properties.mag}`
-        //     })
-        //     .addTo(map);
-    // })
 }
 
 function renderEqFeatures(){
@@ -195,7 +144,7 @@ function renderEqFeatures(){
                 opacity: 0.4
             };
         },
-        // Style - circle size proportion to magnitude arbitrary number but maybe something better? 
+        // Style - circle size proportion to magnitude * scaler
         pointToLayer: function(geoJsonPoint,latlng){
             // console.log(`symbol scaler here: ${symbolScaler}`)
             return L.circle(latlng, symbolScaler.scaler*(geoJsonPoint.properties.mag));
@@ -217,7 +166,9 @@ function renderEqFeatures(){
 function zoomHandler(){
     map.on('zoomend', function() {
         let currentZoom = map.getZoom();
-
+        console.log(currentZoom)
+        // Conditional add logic to set minimum diameter 
+        // if currentZoom === 6 then set the scaler to 1000 and skip the other conditionals
         if(currentZoom < symbolScaler.prevZoom){
             symbolScaler.scaler += 10000;
             symbolScaler.prevZoom = currentZoom;
@@ -226,7 +177,7 @@ function zoomHandler(){
             symbolScaler.scaler -= 10000;
             symbolScaler.prevZoom = currentZoom;            
         }
-        clearMapEvents(); 
+        map.removeLayer(allEarthquakeFeatures)
         renderEqFeatures();
     });
 }
@@ -239,12 +190,10 @@ function zoomHandler(){
 
 function start() {
     initializeMap()
-    setFaultFeatures()
     getEarthquakeData()  
     handleEarthquakeFilter()
+    setFaultFeatures()
     zoomHandler()
   }
-  
-
   
   $(start);
