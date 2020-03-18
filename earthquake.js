@@ -184,8 +184,23 @@ function zoomHandler(){
         if(currentZoom === 6){
             symbolScaler.scaler = 8000;
         }
-        if(currentZoom >= 7){
+        if(currentZoom === 7){
             symbolScaler.scaler = 5000;
+        }
+        if(currentZoom === 8){
+            symbolScaler.scaler = 3000;
+        }
+        if(currentZoom === 9){
+            symbolScaler.scaler = 1000;
+        }
+        if(currentZoom === 10){
+            symbolScaler.scaler = 500;
+        }
+        if(currentZoom === 11){
+            symbolScaler.scaler = 250;
+        }
+        if(currentZoom >= 12){
+            symbolScaler.scaler = 100;
         }
         map.removeLayer(allEarthquakeFeatures)
         renderEqFeatures();
