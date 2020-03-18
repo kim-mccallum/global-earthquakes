@@ -19,13 +19,17 @@ h1{
 
 p{
     font-size: 14px;
+    color: #d3d0d6;
 }
 
 a {
     color:#9480ad;
     font-size: 14px;
 }
-
+.source-label{
+    color: #d3d0d6;
+    display: inline;
+}
 .sources{
     text-align: center;
 }
@@ -54,6 +58,7 @@ p {
 
 #magnitude{
     font-family: 'Quicksand', sans-serif;
+    font-weight: bold;
 }
 
 #query {
@@ -62,7 +67,7 @@ p {
     left: 5px;
     z-index: 1000;
     background: white;
-    /* padding:1px; */
+    font-weight: bold;
     margin-right: 0;
     font-size: 12px;
   }
