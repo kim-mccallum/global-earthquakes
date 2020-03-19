@@ -73,12 +73,12 @@ p {
   }
 
 /* Change some styles for larger screens */
-@media screen and (min-width: 760px) {
+@media screen and (min-width: 670px) {
     .banner {
-        height: 18vh;
+        height: 16vh;
     }
     #mapid {
-        height: 82vh;
+        height: 84vh;
     }
     h1{
         font-size: 24px;
@@ -109,6 +109,6 @@ p {
         height: 85vh;
     }
     #query {
-        top: 105px;
+        top: 115px;
     }  
 }
